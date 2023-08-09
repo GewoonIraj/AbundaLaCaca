@@ -14,6 +14,7 @@ enum class Craftables {
                 GRASS_BLOCK -> {
                     NamespacedKey("custom_crafting_recipe", "grass_block")
                 }
+
                 ENCHANTED_GOLDEN_APPLE -> {
                     NamespacedKey("custom_crafting_recipe", "enchanted_golden_apple")
                 }

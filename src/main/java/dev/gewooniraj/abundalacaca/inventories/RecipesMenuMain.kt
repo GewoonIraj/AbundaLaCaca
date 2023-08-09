@@ -60,52 +60,52 @@ class RecipesMenuMain : Listener {
         svMeta.displayName(Component.empty())
         svItem.itemMeta = svMeta
 
-        for(i in 8..9) {
+        for (i in 8..9) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 17..18) {
+        for (i in 17..18) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 26..29) {
+        for (i in 26..29) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 33..35) {
+        for (i in 33..35) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 45..47) {
+        for (i in 45..47) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 51..53) {
+        for (i in 51..53) {
             inventory.setItem(i, wvItem)
         }
-        for(i in 1..3) {
+        for (i in 1..3) {
             inventory.setItem(i, vItem)
         }
-        for(i in 5..7) {
+        for (i in 5..7) {
             inventory.setItem(i, vItem)
         }
-        for(i in 19..21) {
+        for (i in 19..21) {
             inventory.setItem(i, vItem)
         }
-        for(i in 23..25) {
+        for (i in 23..25) {
             inventory.setItem(i, vItem)
         }
-        for(i in 30..32) {
+        for (i in 30..32) {
             inventory.setItem(i, svItem)
         }
-        for(i in 36..39) {
+        for (i in 36..39) {
             inventory.setItem(i, svItem)
         }
-        for(i in 41..44) {
+        for (i in 41..44) {
             inventory.setItem(i, svItem)
         }
-        for(i in 48..50) {
+        for (i in 48..50) {
             inventory.setItem(i, svItem)
         }
-        for(slot in arrayOf(0, 4, 13, 22)) {
+        for (slot in arrayOf(0, 4, 13, 22)) {
             inventory.setItem(slot, wvItem)
         }
-        for(slot in arrayOf(10, 12, 14, 16)) {
+        for (slot in arrayOf(10, 12, 14, 16)) {
             inventory.setItem(slot, vItem)
         }
         inventory.setItem(11, crItem)
@@ -121,21 +121,24 @@ class RecipesMenuMain : Listener {
         val player = event.whoClicked
         val playerUuid = event.whoClicked.uniqueId
 
-        if(event.inventory == recipesMenuMain[playerUuid]) {
+        if (event.inventory == recipesMenuMain[playerUuid]) {
             event.isCancelled = true
-            if(event.currentItem == null) return
+            if (event.currentItem == null) return
 
-            when(event.slot) {
+            when (event.slot) {
                 11 -> {
                     player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
                 }
+
                 15 -> {
                     player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
                 }
+
                 40 -> {
                     player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
                     event.inventory.close()
                 }
+
                 else -> {}
             }
         }
@@ -146,7 +149,7 @@ class RecipesMenuMain : Listener {
         val player = event.player
         val playerUuid = event.player.uniqueId
 
-        if(recipesMenuMain.containsKey(playerUuid)) {
+        if (recipesMenuMain.containsKey(playerUuid)) {
             player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
             recipesMenuMain.remove(playerUuid)
         }

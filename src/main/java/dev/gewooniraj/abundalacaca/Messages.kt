@@ -7,6 +7,7 @@ enum class Messages {
     PLUGIN_ENABLED,
     PLUGIN_DISABLED,
     OPEN_RECIPES_MENU,
+
     //CLEAR_INVENTORY,
     UNKNOWN_COMMAND,
     NO_PERMISSION,
@@ -17,13 +18,15 @@ enum class Messages {
     companion object {
         fun messageType(type: Messages): TextComponent {
             var msg: TextComponent = ChatUtil.format("")
-            when(type) {
+            when (type) {
                 PLUGIN_ENABLED -> {
                     msg = ChatUtil.format("&e[AbundaLaCaca] This plugin is now enabled!")
                 }
+
                 PLUGIN_DISABLED -> {
                     msg = ChatUtil.format("&e[AbundaLaCaca] This plugin is now disabled!")
                 }
+
                 OPEN_RECIPES_MENU -> {
                     msg = ChatUtil.format("&eOpening the &7Recipes Menu&e...")
                 }
@@ -33,15 +36,19 @@ enum class Messages {
                 UNKNOWN_COMMAND -> {
                     msg = ChatUtil.format("Unknown command. Type \"/help\" for help.")
                 }
+
                 NO_PERMISSION -> {
                     msg = ChatUtil.format("&cYou don't have permission to use this command!")
                 }
+
                 NO_PLAYER -> {
                     msg = ChatUtil.format("&cYou must be a player to perform this command!")
                 }
+
                 TOO_MANY_ARGUMENTS -> {
                     msg = ChatUtil.format("&cToo many arguments!")
                 }
+
                 TOO_LESS_ARGUMENTS -> {
                     msg = ChatUtil.format("&cToo less arguments!")
                 }

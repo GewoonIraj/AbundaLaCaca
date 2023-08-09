@@ -9,7 +9,7 @@ enum class Smeltables {
     companion object {
         fun keyType(type: Smeltables): NamespacedKey {
             var key: NamespacedKey? = null
-            key = when(type) {
+            key = when (type) {
                 LEATHER -> {
                     NamespacedKey("custom_smelting_recipe", "leather")
                 }

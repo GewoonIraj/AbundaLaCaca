@@ -20,12 +20,15 @@ class Recipes : CommandExecutor {
     }*/
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if(sender !is Player) {
+        if (sender !is Player) {
             sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
         } else {
             sender.sendMessage(Messages.messageType(Messages.OPEN_RECIPES_MENU))
-            sender.playSound(Sound.sound(
-                org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f))
+            sender.playSound(
+                Sound.sound(
+                    org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
+                )
+            )
             RecipesMenuMain().opens(sender)
         }
         return true

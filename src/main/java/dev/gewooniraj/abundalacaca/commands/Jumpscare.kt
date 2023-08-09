@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 class Jumpscare : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if(sender !is Player) {
+        if (sender !is Player) {
             sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
         } else {
             sender.sendMessage(ChatUtil.format("&5I mean... you kinda asked for it, right?"))
