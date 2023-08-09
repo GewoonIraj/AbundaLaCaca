@@ -1,0 +1,16 @@
+name: AbundaLaCaca
+version: '1.0-SNAPSHOT'
+main: dev.gewooniraj.abundalacaca.AbundaLaCaca
+api-version: '1.20'
+author: GewoonIraj
+description: A simple plugin made for AbundaLaCaca.
+website: java.bumdawae.xyz
+commands:
+  recipes:
+    description: Opens the Recipes Menu.
+    usage: /<command>
+    aliases: [r]
+  jumpscare:
+    description: No idea what this does...
+    usage: /<command>
+    aliases: [boo]
