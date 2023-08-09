@@ -6,8 +6,8 @@ enum class Messages {
 
     PLUGIN_ENABLED,
     PLUGIN_DISABLED,
-    OPEN_GUI,
-    CLEAR_INVENTORY,
+    OPEN_RECIPES_MENU,
+    //CLEAR_INVENTORY,
     UNKNOWN_COMMAND,
     NO_PERMISSION,
     NO_PLAYER,
@@ -24,12 +24,12 @@ enum class Messages {
                 PLUGIN_DISABLED -> {
                     msg = ChatUtil.format("&e[AbundaLaCaca] This plugin is now disabled!")
                 }
-                OPEN_GUI -> {
+                OPEN_RECIPES_MENU -> {
                     msg = ChatUtil.format("&eOpening the &7Recipes Menu&e...")
                 }
-                CLEAR_INVENTORY -> {
+                /* CLEAR_INVENTORY -> {
                     msg = ChatUtil.format("&aInventory cleared!")
-                }
+                } */
                 UNKNOWN_COMMAND -> {
                     msg = ChatUtil.format("Unknown command. Type \"/help\" for help.")
                 }

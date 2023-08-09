@@ -1,7 +1,7 @@
 package dev.gewooniraj.abundalacaca.commands
 
 import dev.gewooniraj.abundalacaca.Messages
-import dev.gewooniraj.abundalacaca.inventories.RecipesMenu
+import dev.gewooniraj.abundalacaca.inventories.RecipesMenuMain
 import net.kyori.adventure.sound.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -23,10 +23,10 @@ class Recipes : CommandExecutor {
         if(sender !is Player) {
             sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
         } else {
-            sender.sendMessage(Messages.messageType(Messages.OPEN_GUI))
+            sender.sendMessage(Messages.messageType(Messages.OPEN_RECIPES_MENU))
             sender.playSound(Sound.sound(
                 org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f))
-            RecipesMenu().opens(sender)
+            RecipesMenuMain().opens(sender)
         }
         return true
     }

@@ -4,7 +4,7 @@ import dev.gewooniraj.abundalacaca.commands.Jumpscare
 import dev.gewooniraj.abundalacaca.commands.Recipes
 import dev.gewooniraj.abundalacaca.events.PlayerDropItem
 import dev.gewooniraj.abundalacaca.events.PlayerJoin
-import dev.gewooniraj.abundalacaca.inventories.RecipesMenu
+import dev.gewooniraj.abundalacaca.inventories.RecipesMenuMain
 import dev.gewooniraj.abundalacaca.recipes.crafting.EnchantedGoldenApple
 import dev.gewooniraj.abundalacaca.recipes.crafting.GrassBlock
 import dev.gewooniraj.abundalacaca.recipes.smelting.Leather
@@ -34,7 +34,7 @@ class AbundaLaCaca : JavaPlugin() {
     }
 
     private fun registerInventories() {
-        server.pluginManager.registerEvents(RecipesMenu(), this)
+        server.pluginManager.registerEvents(RecipesMenuMain(), this)
     }
 
     private fun registerCraftingRecipes() {

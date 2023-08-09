@@ -14,8 +14,7 @@ class Jumpscare : CommandExecutor {
             sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
         } else {
             sender.sendMessage(ChatUtil.format("&5I mean... you kinda asked for it, right?"))
-            sender.playSound(Sound.sound(
-                    org.bukkit.Sound.ENTITY_ENDER_DRAGON_DEATH, Sound.Source.PLAYER, 2f, 1f))
+            sender.playSound(Sound.sound(org.bukkit.Sound.ENTITY_ENDER_DRAGON_DEATH, Sound.Source.PLAYER, 2f, 1f))
         }
         return true
     }

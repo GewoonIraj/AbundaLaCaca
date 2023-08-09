@@ -17,10 +17,10 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-class RecipesMenu : Listener {
+class RecipesMenuMain : Listener {
 
     companion object {
-        val testGui: MutableMap<UUID, Inventory> = mutableMapOf()
+        val recipesMenuMain: MutableMap<UUID, Inventory> = mutableMapOf()
     }
 
     fun opens(player: Player) {
@@ -112,7 +112,7 @@ class RecipesMenu : Listener {
         inventory.setItem(15, srItem)
         inventory.setItem(40, cItem)
 
-        testGui[player.uniqueId] = inventory
+        recipesMenuMain[player.uniqueId] = inventory
         player.openInventory(inventory)
     }
 
@@ -121,25 +121,19 @@ class RecipesMenu : Listener {
         val player = event.whoClicked
         val playerUuid = event.whoClicked.uniqueId
 
-        if(event.inventory == testGui[playerUuid]) {
+        if(event.inventory == recipesMenuMain[playerUuid]) {
             event.isCancelled = true
             if(event.currentItem == null) return
 
             when(event.slot) {
                 11 -> {
-                    player.playSound(
-                        Sound.sound(
-                            org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
+                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
                 }
                 15 -> {
-                    player.playSound(
-                        Sound.sound(
-                            org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
+                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
                 }
                 40 -> {
-                    player.playSound(
-                        Sound.sound(
-                        org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
+                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
                     event.inventory.close()
                 }
                 else -> {}
@@ -152,11 +146,9 @@ class RecipesMenu : Listener {
         val player = event.player
         val playerUuid = event.player.uniqueId
 
-        if(testGui.containsKey(playerUuid)) {
-            player.playSound(
-                Sound.sound(
-                    org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
-            testGui.remove(playerUuid)
+        if(recipesMenuMain.containsKey(playerUuid)) {
+            player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
+            recipesMenuMain.remove(playerUuid)
         }
     }
 }
