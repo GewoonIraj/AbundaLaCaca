@@ -1,0 +1,27 @@
+{
+    "type": "CustomShapedRecipe",
+    "key": {
+        "namespace": "custom_crafting_recipe",
+        "key": "enchanted_golden_apple"
+    },
+    "result": {
+        "item": "enchanted_golden_apple",
+        "amount": 1
+    },
+    "shape": [
+        "ABA",
+        "ACA",
+        "ADA"
+    ],
+    "ingredients": {
+        "A": "gold_block",
+        "B": "totem_of_undying",
+        "C": "golden_apple",
+        "D": "dragon_breath"
+    },
+    "metadata": {
+        "lore": [
+            "&7Crafted Item"
+        ]
+    }
+}

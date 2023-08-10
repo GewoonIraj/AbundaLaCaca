@@ -10,14 +10,14 @@ import org.bukkit.entity.Player
 
 class Recipes : CommandExecutor {
 
-/*    fun isInt(s: String): Boolean {
-        return try {
-            s.toInt()
-            true
-        } catch(e: NumberFormatException) {
-            false
-        }
-    }*/
+    /*    fun isInt(s: String): Boolean {
+            return try {
+                s.toInt()
+                true
+            } catch(e: NumberFormatException) {
+                false
+            }
+        }*/
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) {

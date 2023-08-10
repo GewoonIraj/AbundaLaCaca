@@ -1,0 +1,26 @@
+{
+    "type": "CustomShapelessRecipe",
+    "key": {
+        "namespace": "custom_crafting_recipe",
+        "key": "grass_block"
+    },
+    "result": {
+        "item": "grass_block",
+        "amount": 1
+    },
+    "ingredients": [
+        {
+            "amount": 1,
+            "item": "dirt"
+        },
+        {
+            "amount": 1,
+            "item": "wheat_seeds"
+        }
+    ],
+    "metadata": {
+        "lore": [
+            "&7Crafted Item"
+        ]
+    }
+}

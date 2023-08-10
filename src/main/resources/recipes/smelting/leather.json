@@ -1,0 +1,16 @@
+{
+    "type": "CustomFurnaceRecipe",
+    "key": {
+        "namespace": "custom_smelting_recipe",
+        "key": "leather"
+    },
+    "result": "leather",
+    "source": "rotten_flesh",
+    "experience": 0.35,
+    "cookingTime": 200,
+    "metadata": {
+        "lore": [
+            "&7Smelted Item"
+        ]
+    }
+}

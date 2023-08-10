@@ -18,6 +18,7 @@ class PlayerJoin : Listener {
         discoverRecipes(player, allCraftables)
         discoverRecipes(player, allSmeltables)
     }
+
     private fun discoverRecipes(player: Player, recipes: Array<out Enum<*>>) {
         for (recipe in recipes) {
             when (recipe) {
