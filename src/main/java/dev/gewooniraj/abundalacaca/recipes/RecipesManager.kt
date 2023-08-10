@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dev.gewooniraj.abundalacaca.AbundaLaCaca
 import dev.gewooniraj.abundalacaca.ChatUtil
+import dev.gewooniraj.abundalacaca.namespacedkeys.Craftables
+import dev.gewooniraj.abundalacaca.namespacedkeys.Smeltables
 import org.bukkit.Material
 import org.bukkit.inventory.FurnaceRecipe
 import org.bukkit.inventory.ItemStack
@@ -23,17 +25,18 @@ class RecipeManager {
 
     fun registerCustomRecipes(recipesFolder: File) {
         val recipeTypes = listOf("smelting", "crafting")
+        val craftableRecipes = Craftables.entries.associateWith { it.key.key }
+        val smeltableRecipes = Smeltables.entries.associateWith { it.key.key }
+
         for (recipeType in recipeTypes) {
             val recipeTypeFolder = recipesFolder.resolve(recipeType)
             if (!recipeTypeFolder.exists()) {
                 recipeTypeFolder.mkdirs()
             }
 
-            val defaultRecipeListResource = getResourceStream("recipes/$recipeType/recipes.txt")
-            val defaultRecipeFilenames =
-                defaultRecipeListResource.use { it?.bufferedReader()?.readLines() ?: emptyList() }
+            val recipeMapping = if (recipeType == "crafting") craftableRecipes else smeltableRecipes
 
-            for (recipeFileName in defaultRecipeFilenames) {
+            for (recipeFileName in recipeMapping.values) {
                 val customFilePath = recipeTypeFolder.resolve("$recipeFileName.json")
 
                 val inputStream = getResourceStream("recipes/$recipeType/$recipeFileName.json")
