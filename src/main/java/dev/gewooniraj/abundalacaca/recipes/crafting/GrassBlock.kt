@@ -18,7 +18,7 @@ object GrassBlock : Listener {
     private val plugin: Plugin = JavaPlugin.getPlugin(AbundaLaCaca::class.java)
     private fun grassBlock() {
         val grassBlock = ItemStack(Material.GRASS_BLOCK, 1)
-        val recipe = ShapelessRecipe(Craftables.keyType(Craftables.GRASS_BLOCK), grassBlock)
+        val recipe = ShapelessRecipe(Craftables.GRASS_BLOCK.key, grassBlock)
         recipe.addIngredient(1, Material.DIRT)
         recipe.addIngredient(1, Material.WHEAT_SEEDS)
         plugin.server.addRecipe(recipe)

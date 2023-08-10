@@ -1,7 +1,7 @@
 package dev.gewooniraj.abundalacaca.commands
 
 import dev.gewooniraj.abundalacaca.Messages
-import dev.gewooniraj.abundalacaca.inventories.RecipesMenuMain
+import dev.gewooniraj.abundalacaca.inventories.recipesmenu.RecipesMenu
 import net.kyori.adventure.sound.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 class Recipes : CommandExecutor {
 
-    /*fun isInt(s: String): Boolean {
+/*    fun isInt(s: String): Boolean {
         return try {
             s.toInt()
             true
@@ -29,7 +29,7 @@ class Recipes : CommandExecutor {
                     org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
                 )
             )
-            RecipesMenuMain().opens(sender)
+            RecipesMenu().opens(sender)
         }
         return true
     }

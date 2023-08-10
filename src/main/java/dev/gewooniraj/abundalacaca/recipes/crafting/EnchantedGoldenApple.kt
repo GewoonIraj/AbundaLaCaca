@@ -26,7 +26,7 @@ object EnchantedGoldenApple : Listener {
         meta.lore(lore)
         enchantedGoldenApple.itemMeta = meta
 
-        val recipe = ShapedRecipe(Craftables.keyType(Craftables.ENCHANTED_GOLDEN_APPLE), enchantedGoldenApple)
+        val recipe = ShapedRecipe(Craftables.ENCHANTED_GOLDEN_APPLE.key, enchantedGoldenApple)
         recipe.shape("ABA", "ACA", "ADA")
         recipe.setIngredient('A', Material.GOLD_BLOCK)
         recipe.setIngredient('B', Material.TOTEM_OF_UNDYING)

@@ -2,19 +2,8 @@ package dev.gewooniraj.abundalacaca.namespacedkeys
 
 import org.bukkit.NamespacedKey
 
-enum class Smeltables {
+enum class Smeltables(val key: NamespacedKey) {
 
-    LEATHER;
+    LEATHER(NamespacedKey("custom_smelting_recipe", "leather"));
 
-    companion object {
-        fun keyType(type: Smeltables): NamespacedKey {
-            var key: NamespacedKey? = null
-            key = when (type) {
-                LEATHER -> {
-                    NamespacedKey("custom_smelting_recipe", "leather")
-                }
-            }
-            return key
-        }
-    }
 }
