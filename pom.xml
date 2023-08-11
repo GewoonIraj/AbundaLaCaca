@@ -11,7 +11,7 @@
 
     <name>AbundaLaCaca</name>
 
-    <description>A simple plugin written in Kotlin</description>
+    <description>A simple plugin written in Kotlin, made for AbundaLaCaca (a private survival server).</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

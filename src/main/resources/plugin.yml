@@ -3,7 +3,7 @@ version: '${version}'
 main: dev.gewooniraj.abundalacaca.AbundaLaCaca
 api-version: '1.20'
 author: GewoonIraj
-description: A simple plugin made for AbundaLaCaca.
+description: A simple plugin written in Kotlin, made for AbundaLaCaca (a private survival server).
 website: java.bumdawae.xyz
 commands:
   recipes:
