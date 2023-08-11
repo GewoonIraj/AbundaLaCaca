@@ -1,11 +1,8 @@
 package dev.gewooniraj.abundalacaca.inventories.recipesmenu
 
-import dev.gewooniraj.abundalacaca.ChatUtil
-import dev.gewooniraj.abundalacaca.namespacedkeys.Craftables
-import dev.gewooniraj.abundalacaca.namespacedkeys.Smeltables
+import dev.gewooniraj.abundalacaca.recipes.RecipeUtil
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -14,7 +11,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.ItemStack
 import java.util.*
 
 class RecipesMenu : Listener {
@@ -23,54 +19,49 @@ class RecipesMenu : Listener {
         val recipesMenu: MutableMap<UUID, Inventory> = mutableMapOf()
     }
 
-    fun opens(player: Player) {
+    private enum class SlotAction { CRAFTING_RECIPES, SMELTING_RECIPES, CLOSE, NONE }
+
+    private val slotActions = mapOf(
+        1 to SlotAction.CRAFTING_RECIPES,
+        7 to SlotAction.SMELTING_RECIPES,
+        22 to SlotAction.CLOSE
+    )
+
+    fun open(player: Player) {
         val inventory: Inventory = Bukkit.createInventory(player, 27, Component.text("Recipes Menu"))
 
-        val crItem = ItemStack(Material.CRAFTING_TABLE, 1)
-        val crMeta = crItem.itemMeta
-        crMeta.displayName(ChatUtil.format("&aCrafting Recipes"))
-        val crLore = ArrayList<TextComponent>()
-        crLore.add(ChatUtil.format("&7Total Crafting Recipes: &b" + Craftables.entries.size))
-        crMeta.lore(crLore)
-        crItem.itemMeta = crMeta
-        val srItem = ItemStack(Material.FURNACE, 1)
-        val srMeta = srItem.itemMeta
-        srMeta.displayName(ChatUtil.format("&6Smelting Recipes"))
-        val srLore = ArrayList<TextComponent>()
-        srLore.add(ChatUtil.format("&7Total Smeltable Recipes: &b" + Smeltables.entries.size))
-        srMeta.lore(srLore)
-        srItem.itemMeta = srMeta
-        val cItem = ItemStack(Material.BARRIER, 1)
-        val cMeta = cItem.itemMeta
-        cMeta.displayName(ChatUtil.format("&cClose"))
-        val cLore = ArrayList<TextComponent>()
-        cLore.add(ChatUtil.format("&7To Exit"))
-        cMeta.lore(cLore)
-        cItem.itemMeta = cMeta
-        val wvItem = ItemStack(Material.WEEPING_VINES, 1)
-        val wvMeta = wvItem.itemMeta
-        wvMeta.displayName(Component.empty())
-        wvItem.itemMeta = wvMeta
-        val svItem = ItemStack(Material.SCULK_VEIN, 1)
-        val svMeta = svItem.itemMeta
-        svMeta.displayName(Component.empty())
-        svItem.itemMeta = svMeta
+        val crItem = ItemManager.createItem(
+            Material.CRAFTING_TABLE, "&aCrafting Recipes",
+            listOf("&7Total Crafting Recipes: &b${RecipeUtil.getRecipeCount("crafting")}")
+        )
+        val srItem = ItemManager.createItem(
+            Material.FURNACE, "&6Smelting Recipes",
+            listOf("&7Total Smeltable Recipes: &b${RecipeUtil.getRecipeCount("smelting")}")
+        )
+        val cItem = ItemManager.createItem(Material.BARRIER, "&cClose", listOf("&7To Exit"))
+        val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", emptyList())
+        val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", emptyList())
 
-        for (i in 3..5) {
-            inventory.setItem(i, wvItem)
+        val wvSlots = listOf(3..5, 18..20, 24..26)
+        val svSlots = listOf(8..17)
+        val otherSlots = listOf(0, 2, 6, 21, 23)
+
+        wvSlots.forEach { range ->
+            range.forEach { slot ->
+                inventory.setItem(slot, wvItem)
+            }
         }
-        for (i in 8..17) {
-            inventory.setItem(i, svItem)
+
+        svSlots.forEach { range ->
+            range.forEach { slot ->
+                inventory.setItem(slot, svItem)
+            }
         }
-        for (i in 18..20) {
-            inventory.setItem(i, wvItem)
-        }
-        for (i in 24..26) {
-            inventory.setItem(i, wvItem)
-        }
-        for (slot in arrayOf(0, 2, 6, 21, 23)) {
+
+        otherSlots.forEach { slot ->
             inventory.setItem(slot, svItem)
         }
+
         inventory.setItem(1, crItem)
         inventory.setItem(7, srItem)
         inventory.setItem(22, cItem)
@@ -81,39 +72,49 @@ class RecipesMenu : Listener {
 
     @EventHandler
     fun onClick(event: InventoryClickEvent) {
-        val player = event.whoClicked
-        val playerUuid = event.whoClicked.uniqueId
+        val player = event.whoClicked as? Player ?: return
+        val playerUuid = player.uniqueId
+        val clickedSlot = event.slot
 
         if (event.inventory == recipesMenu[playerUuid]) {
             event.isCancelled = true
-            if (event.currentItem == null) return
+            val action = slotActions[clickedSlot] ?: SlotAction.NONE
 
-            when (event.slot) {
-                1 -> {
-                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
+            when (action) {
+                SlotAction.CRAFTING_RECIPES, SlotAction.SMELTING_RECIPES -> {
+                    player.playSound(
+                        Sound.sound(
+                            org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f
+                        )
+                    )
                 }
 
-                7 -> {
-                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f))
-                }
-
-                22 -> {
-                    player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
+                SlotAction.CLOSE -> {
+                    player.playSound(
+                        Sound.sound(
+                            org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f
+                        )
+                    )
                     event.inventory.close()
                 }
 
-                else -> {}
+                SlotAction.NONE -> {
+                }
             }
         }
     }
 
     @EventHandler
     fun onClose(event: InventoryCloseEvent) {
-        val player = event.player
-        val playerUuid = event.player.uniqueId
+        val player = event.player as? Player ?: return
+        val playerUuid = player.uniqueId
 
         if (recipesMenu.containsKey(playerUuid)) {
-            player.playSound(Sound.sound(org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f))
+            player.playSound(
+                Sound.sound(
+                    org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, Sound.Source.PLAYER, 1f, 1f
+                )
+            )
             recipesMenu.remove(playerUuid)
         }
     }

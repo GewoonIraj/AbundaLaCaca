@@ -29,7 +29,7 @@ class Recipes : CommandExecutor {
                     org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
                 )
             )
-            RecipesMenu().opens(sender)
+            RecipesMenu().open(sender)
         }
         return true
     }

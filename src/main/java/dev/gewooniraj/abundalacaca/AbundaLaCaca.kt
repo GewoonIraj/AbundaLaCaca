@@ -2,6 +2,7 @@ package dev.gewooniraj.abundalacaca
 
 import dev.gewooniraj.abundalacaca.commands.Jumpscare
 import dev.gewooniraj.abundalacaca.commands.Recipes
+import dev.gewooniraj.abundalacaca.events.PlayerArmSwing
 import dev.gewooniraj.abundalacaca.events.PlayerDropItem
 import dev.gewooniraj.abundalacaca.events.PlayerJoin
 import dev.gewooniraj.abundalacaca.events.PlayerRecipeDiscover
@@ -30,7 +31,7 @@ class AbundaLaCaca : JavaPlugin() {
     }
 
     private fun registerEvents() {
-//        server.pluginManager.registerEvents(PlayerArmSwing(), this)
+        server.pluginManager.registerEvents(PlayerArmSwing(), this)
         server.pluginManager.registerEvents(PlayerDropItem(), this)
         server.pluginManager.registerEvents(PlayerJoin(), this)
         server.pluginManager.registerEvents(PlayerRecipeDiscover(), this)
