@@ -18,6 +18,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import java.util.jar.JarFile
 
+@Suppress("SENSELESS_COMPARISON")
 class RecipeManager {
     private val plugin: Plugin = JavaPlugin.getPlugin(AbundaLaCaca::class.java)
     private val gson: Gson = GsonBuilder().registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer()).create()
@@ -34,9 +35,9 @@ class RecipeManager {
                 val customFilePath = recipeTypeFolder.resolve("${recipeKey.key}.json")
                 val recipeReader = InputStreamReader(customFilePath.inputStream(), StandardCharsets.UTF_8)
                 when (val recipeData = gson.fromJson(recipeReader, CustomRecipe::class.java)) {
-                    is CustomFurnaceRecipe -> createCustomFurnaceRecipe(recipeData)
                     is CustomShapedRecipe -> createCustomShapedRecipe(recipeData)
                     is CustomShapelessRecipe -> createCustomShapelessRecipe(recipeData)
+                    is CustomFurnaceRecipe -> createCustomFurnaceRecipe(recipeData)
                 }
             }
         }
@@ -75,42 +76,30 @@ class RecipeManager {
 
     private fun getResourceStream(path: String) = AbundaLaCaca::class.java.classLoader.getResourceAsStream(path)
 
-    private fun createCustomFurnaceRecipe(recipeData: CustomFurnaceRecipe) {
-        val resultMaterial = Material.valueOf(recipeData.result.uppercase())
-        val sourceMaterial = Material.valueOf(recipeData.source.uppercase())
-
-        val resultItem = ItemStack(resultMaterial)
-        val resultMeta = resultItem.itemMeta
-        val resultLore = recipeData.metadata.lore.map { ChatUtil.format(it) }
-
-        resultMeta.lore(resultLore)
-        resultItem.itemMeta = resultMeta
-
-        val recipe = FurnaceRecipe(
-            recipeData.key, resultItem, sourceMaterial, recipeData.experience, recipeData.cookingTime
-        )
-        plugin.server.addRecipe(recipe)
-    }
-
     private fun createCustomShapedRecipe(recipeData: CustomShapedRecipe) {
         val resultMaterial = Material.valueOf(recipeData.result.item.uppercase())
         val resultAmount = recipeData.result.amount
 
         val resultItem = ItemStack(resultMaterial, resultAmount)
         val resultMeta = resultItem.itemMeta
-        val resultLore = recipeData.metadata.lore.map { ChatUtil.format(it) }
 
-        resultMeta.lore(resultLore)
+        if (recipeData.customMetaData.displayName != null) {
+            resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
+        }
+
+        if (recipeData.customMetaData.lore.isNotEmpty()) {
+            val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
+            resultMeta.lore(resultLore)
+        }
         resultItem.itemMeta = resultMeta
 
-        val recipe = ShapedRecipe(recipeData.key, resultItem)
+        val recipe = ShapedRecipe(recipeData.namespacedKey, resultItem)
         recipe.shape(*recipeData.shape.toTypedArray())
 
         for ((symbol, ingredientMaterial) in recipeData.ingredients) {
             val ingredient = Material.valueOf(ingredientMaterial.uppercase())
             recipe.setIngredient(symbol[0], ingredient)
         }
-
         plugin.server.addRecipe(recipe)
     }
 
@@ -120,19 +109,47 @@ class RecipeManager {
 
         val resultItem = ItemStack(resultMaterial, resultAmount)
         val resultMeta = resultItem.itemMeta
-        val resultLore = recipeData.metadata.lore.map { ChatUtil.format(it) }
 
-        resultMeta.lore(resultLore)
+        if (recipeData.customMetaData.displayName != null) {
+            resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
+        }
+
+        if (recipeData.customMetaData.lore.isNotEmpty()) {
+            val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
+            resultMeta.lore(resultLore)
+        }
+
         resultItem.itemMeta = resultMeta
 
-        val recipe = ShapelessRecipe(recipeData.key, resultItem)
-
+        val recipe = ShapelessRecipe(recipeData.namespacedKey, resultItem)
         for (ingredientData in recipeData.ingredients) {
             val ingredientMaterial = Material.valueOf(ingredientData.item.uppercase())
             val ingredientAmount = ingredientData.amount
             recipe.addIngredient(ingredientAmount, ingredientMaterial)
         }
+        plugin.server.addRecipe(recipe)
+    }
 
+    private fun createCustomFurnaceRecipe(recipeData: CustomFurnaceRecipe) {
+        val resultMaterial = Material.valueOf(recipeData.result.uppercase())
+        val sourceMaterial = Material.valueOf(recipeData.source.uppercase())
+
+        val resultItem = ItemStack(resultMaterial)
+        val resultMeta = resultItem.itemMeta
+
+        if (recipeData.customMetaData.displayName != null) {
+            resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
+        }
+
+        if (recipeData.customMetaData.lore.isNotEmpty() || recipeData.customMetaData.lore != null) {
+            val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
+            resultMeta.lore(resultLore)
+        }
+        resultItem.itemMeta = resultMeta
+
+        val recipe = FurnaceRecipe(
+            recipeData.namespacedKey, resultItem, sourceMaterial, recipeData.experience, recipeData.cookingTime
+        )
         plugin.server.addRecipe(recipe)
     }
 }

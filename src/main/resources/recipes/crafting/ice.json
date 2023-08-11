@@ -2,22 +2,20 @@
     "type": "CustomShapedRecipe",
     "namespacedKey": {
         "namespace": "custom_crafting_recipe",
-        "key": "enchanted_golden_apple"
+        "key": "ice"
     },
     "result": {
-        "item": "enchanted_golden_apple",
+        "item": "ice",
         "amount": 1
     },
     "shape": [
+        "AAA",
         "ABA",
-        "ACA",
-        "ADA"
+        "AAA"
     ],
     "ingredients": {
-        "A": "gold_block",
-        "B": "totem_of_undying",
-        "C": "golden_apple",
-        "D": "dragon_breath"
+        "A": "snow_block",
+        "B": "water_bucket"
     },
     "customMetaData": {
         "displayName": null,

@@ -45,5 +45,8 @@ class AbundaLaCaca : JavaPlugin() {
         val recipesManager = RecipeManager()
         val recipesFolder = dataFolder.resolve("recipes")
         recipesManager.registerCustomRecipes(recipesFolder)
+
+        server.consoleSender.sendMessage(Messages.messageType(Messages.TOTAL_CRAFTABLES))
+        server.consoleSender.sendMessage(Messages.messageType(Messages.TOTAL_SMELTABLES))
     }
 }

@@ -1,56 +1,71 @@
 package dev.gewooniraj.abundalacaca
 
+import dev.gewooniraj.abundalacaca.recipes.RecipeUtil
 import net.kyori.adventure.text.TextComponent
 
 enum class Messages {
 
     PLUGIN_ENABLED,
     PLUGIN_DISABLED,
-    OPEN_RECIPES_MENU,
-
-    //    CLEAR_INVENTORY,
-    UNKNOWN_COMMAND,
-    NO_PERMISSION,
+    TOTAL_CRAFTABLES,
+    TOTAL_SMELTABLES,
     NO_PLAYER,
+    NO_PERMISSION,
     TOO_MANY_ARGUMENTS,
-    TOO_LESS_ARGUMENTS;
+    TOO_LESS_ARGUMENTS,
+    UNKNOWN_COMMAND,
+    OPEN_RECIPES_MENU;
 
     companion object {
         fun messageType(type: Messages): TextComponent {
-            var msg: TextComponent = ChatUtil.format("")
+            var msg: TextComponent = ChatUtil.textFormat("")
             when (type) {
                 PLUGIN_ENABLED -> {
-                    msg = ChatUtil.format("&e[AbundaLaCaca] This plugin is now enabled!")
+                    msg = ChatUtil.consoleFormat("&aThis plugin is now enabled!")
                 }
 
                 PLUGIN_DISABLED -> {
-                    msg = ChatUtil.format("&e[AbundaLaCaca] This plugin is now disabled!")
+                    msg = ChatUtil.consoleFormat("&cThis plugin is now disabled!")
                 }
 
-                OPEN_RECIPES_MENU -> {
-                    msg = ChatUtil.format("&eOpening the &7Recipes Menu&e...")
-                }
-                /* CLEAR_INVENTORY -> {
-                    msg = ChatUtil.format("&aInventory cleared!")
-                } */
-                UNKNOWN_COMMAND -> {
-                    msg = ChatUtil.format("Unknown command. Type \"/help\" for help.")
+                TOTAL_CRAFTABLES -> {
+                    msg = ChatUtil.consoleFormat(
+                        "&3There are &b${
+                            RecipeUtil.getRecipeCount("crafting")
+                        }&3 Custom Craftable Recipes!"
+                    )
                 }
 
-                NO_PERMISSION -> {
-                    msg = ChatUtil.format("&cYou don't have permission to use this command!")
+                TOTAL_SMELTABLES -> {
+                    msg = ChatUtil.consoleFormat(
+                        "&3There are &b${
+                            RecipeUtil.getRecipeCount("smelting")
+                        }&3 Custom Smeltable Recipe!"
+                    )
                 }
 
                 NO_PLAYER -> {
-                    msg = ChatUtil.format("&cYou must be a player to perform this command!")
+                    msg = ChatUtil.consoleFormat("&cYou must be a player to perform this command!")
+                }
+
+                NO_PERMISSION -> {
+                    msg = ChatUtil.consoleFormat("&cYou don't have permission to use this command!")
                 }
 
                 TOO_MANY_ARGUMENTS -> {
-                    msg = ChatUtil.format("&cToo many arguments!")
+                    msg = ChatUtil.consoleFormat("&cToo many arguments!")
                 }
 
                 TOO_LESS_ARGUMENTS -> {
-                    msg = ChatUtil.format("&cToo less arguments!")
+                    msg = ChatUtil.consoleFormat("&cToo less arguments!")
+                }
+
+                UNKNOWN_COMMAND -> {
+                    msg = ChatUtil.textFormat("Unknown command. Type \"/help\" for help.")
+                }
+
+                OPEN_RECIPES_MENU -> {
+                    msg = ChatUtil.textFormat("&eOpening the &7Recipes Menu&e...")
                 }
             }
             return msg

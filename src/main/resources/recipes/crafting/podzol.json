@@ -2,10 +2,10 @@
     "type": "CustomShapelessRecipe",
     "namespacedKey": {
         "namespace": "custom_crafting_recipe",
-        "key": "grass_block"
+        "key": "podzol"
     },
     "result": {
-        "item": "grass_block",
+        "item": "podzol",
         "amount": 1
     },
     "ingredients": [
@@ -15,7 +15,7 @@
         },
         {
             "amount": 1,
-            "item": "wheat_seeds"
+            "item": "dead_bush"
         }
     ],
     "customMetaData": {

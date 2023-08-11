@@ -6,7 +6,13 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 
 object ChatUtil {
 
-    fun format(string: String): TextComponent {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(string).decoration(TextDecoration.ITALIC, false)
+    fun consoleFormat(string: String): TextComponent {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize("&e[AbundaLaCaca] &r$string")
+            .decoration(TextDecoration.ITALIC, false)
+    }
+
+    fun textFormat(string: String): TextComponent {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(string)
+            .decoration(TextDecoration.ITALIC, false)
     }
 }

@@ -9,8 +9,8 @@ object ItemManager {
     fun createItem(material: Material, displayName: String, lore: List<String>): ItemStack {
         val item = ItemStack(material, 1)
         val itemMeta = item.itemMeta
-        itemMeta.displayName(ChatUtil.format(displayName))
-        val loreComponents = lore.map { ChatUtil.format(it) }
+        itemMeta.displayName(ChatUtil.textFormat(displayName))
+        val loreComponents = lore.map { ChatUtil.textFormat(it) }
         itemMeta.lore(loreComponents)
         item.itemMeta = itemMeta
         return item

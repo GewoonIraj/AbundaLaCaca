@@ -30,9 +30,9 @@ object RecipeUtil {
         recipeFiles?.forEach { recipeFile ->
             val recipeReader = InputStreamReader(recipeFile.inputStream(), StandardCharsets.UTF_8)
             when (val recipeData = gson.fromJson(recipeReader, CustomRecipe::class.java)) {
-                is CustomFurnaceRecipe -> recipeKeys.add(recipeData.key)
-                is CustomShapedRecipe -> recipeKeys.add(recipeData.key)
-                is CustomShapelessRecipe -> recipeKeys.add(recipeData.key)
+                is CustomShapedRecipe -> recipeKeys.add(recipeData.namespacedKey)
+                is CustomShapelessRecipe -> recipeKeys.add(recipeData.namespacedKey)
+                is CustomFurnaceRecipe -> recipeKeys.add(recipeData.namespacedKey)
             }
         }
 
