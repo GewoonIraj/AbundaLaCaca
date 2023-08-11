@@ -19,9 +19,7 @@ import java.nio.charset.StandardCharsets
 
 class RecipeManager {
     private val plugin: Plugin = JavaPlugin.getPlugin(AbundaLaCaca::class.java)
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer())
-        .create()
+    private val gson: Gson = GsonBuilder().registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer()).create()
 
     fun registerCustomRecipes(recipesFolder: File) {
         val recipeTypes = listOf("smelting", "crafting")
@@ -75,11 +73,7 @@ class RecipeManager {
         resultItem.itemMeta = resultMeta
 
         val recipe = FurnaceRecipe(
-            recipeData.key,
-            resultItem,
-            sourceMaterial,
-            recipeData.experience,
-            recipeData.cookingTime
+            recipeData.key, resultItem, sourceMaterial, recipeData.experience, recipeData.cookingTime
         )
         plugin.server.addRecipe(recipe)
     }
