@@ -18,25 +18,24 @@ object RecipeUtil {
         return recipeTypeFolder.listFiles()?.count { it.isFile && it.extension == "json" } ?: 0
     }
 
-    fun getRecipeKeys(plugin: Plugin, recipeType: String): List<NamespacedKey> {
-        val gson = GsonBuilder()
-            .registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer())
-            .create()
-
+    fun getRecipeKeys(recipeType: String): List<NamespacedKey> {
+        val gson = GsonBuilder().registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer()).create()
         val recipeTypeFolder = File(plugin.dataFolder, "recipes/$recipeType")
         if (!recipeTypeFolder.exists()) {
             return emptyList()
         }
 
+        val recipeKeys = mutableListOf<NamespacedKey>()
         val recipeFiles = recipeTypeFolder.listFiles { _, name -> name.endsWith(".json") }
-        return recipeFiles?.flatMap { recipeFile ->
+        recipeFiles?.forEach { recipeFile ->
             val recipeReader = InputStreamReader(recipeFile.inputStream(), StandardCharsets.UTF_8)
             when (val recipeData = gson.fromJson(recipeReader, CustomRecipe::class.java)) {
-                is CustomFurnaceRecipe -> listOf(recipeData.key)
-                is CustomShapedRecipe -> listOf(recipeData.key)
-                is CustomShapelessRecipe -> listOf(recipeData.key)
-                else -> emptyList()
+                is CustomFurnaceRecipe -> recipeKeys.add(recipeData.key)
+                is CustomShapedRecipe -> recipeKeys.add(recipeData.key)
+                is CustomShapelessRecipe -> recipeKeys.add(recipeData.key)
             }
-        } ?: emptyList()
+        }
+
+        return recipeKeys
     }
 }

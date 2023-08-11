@@ -14,6 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.util.jar.JarFile
 
 class RecipeManager {
     private val plugin: Plugin = JavaPlugin.getPlugin(AbundaLaCaca::class.java)
@@ -22,37 +25,52 @@ class RecipeManager {
     fun registerCustomRecipes(recipesFolder: File) {
         val recipeTypes = listOf("crafting", "smelting")
 
-        for (recipeType in recipeTypes) {
+        recipeTypes.forEach { generateMissingRecipes(it) }
+        recipeTypes.forEach { recipeType ->
             val recipeTypeFolder = recipesFolder.resolve(recipeType)
-            if (!recipeTypeFolder.exists()) {
-                recipeTypeFolder.mkdirs()
-            }
+            recipeTypeFolder.mkdirs()
 
-            val recipeKeys = RecipeUtil.getRecipeKeys(plugin, recipeType)
-
-            for (recipeKey in recipeKeys) {
+            RecipeUtil.getRecipeKeys(recipeType).forEach { recipeKey ->
                 val customFilePath = recipeTypeFolder.resolve("${recipeKey.key}.json")
-
-                val inputStream = getResourceStream("recipes/$recipeType/${recipeKey.key}.json")
-                val content = inputStream?.reader(StandardCharsets.UTF_8)?.readText()
-                inputStream?.close()
-
-                if (content != null) {
-                    File(customFilePath.toString()).writeText(content, StandardCharsets.UTF_8)
-                }
-
                 val recipeReader = InputStreamReader(customFilePath.inputStream(), StandardCharsets.UTF_8)
-                val recipeData = gson.fromJson(recipeReader, CustomRecipe::class.java)
+                when (val recipeData = gson.fromJson(recipeReader, CustomRecipe::class.java)) {
+                    is CustomFurnaceRecipe -> createCustomFurnaceRecipe(recipeData)
+                    is CustomShapedRecipe -> createCustomShapedRecipe(recipeData)
+                    is CustomShapelessRecipe -> createCustomShapelessRecipe(recipeData)
+                }
+            }
+        }
+    }
 
-                if (recipeData != null) {
-                    when (recipeData) {
-                        is CustomFurnaceRecipe -> createCustomFurnaceRecipe(recipeData)
-                        is CustomShapedRecipe -> createCustomShapedRecipe(recipeData)
-                        is CustomShapelessRecipe -> createCustomShapelessRecipe(recipeData)
+    private fun generateMissingRecipes(recipeType: String) {
+        val internalRecipeFolder = "recipes/$recipeType"
+        val externalRecipeFolder = File(plugin.dataFolder, "recipes/$recipeType").apply { mkdirs() }
+
+        getResourceFiles(internalRecipeFolder).forEach { internalFileName ->
+            val externalFile = File(externalRecipeFolder, internalFileName)
+            if (!externalFile.exists()) {
+                getResourceStream("$internalRecipeFolder/$internalFileName")?.use { inputStream ->
+                    Files.copy(inputStream, externalFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                } ?: plugin.logger.warning("Could not find internal resource: $internalRecipeFolder/$internalFileName")
+            }
+        }
+    }
+
+    private fun getResourceFiles(path: String): List<String> {
+        val files = mutableListOf<String>()
+        AbundaLaCaca::class.java.classLoader.getResources(path).toList().forEach { url ->
+            val uri = url.toURI()
+            if (uri.scheme == "jar") {
+                val jarFile = uri.schemeSpecificPart.substring(5, uri.schemeSpecificPart.indexOf('!'))
+                val entries = JarFile(jarFile).entries()
+                entries.toList().forEach { entry ->
+                    if (!entry.isDirectory && entry.name.startsWith(path)) {
+                        files.add(entry.name.substringAfterLast("/"))
                     }
                 }
             }
         }
+        return files
     }
 
     private fun getResourceStream(path: String) = AbundaLaCaca::class.java.classLoader.getResourceAsStream(path)
