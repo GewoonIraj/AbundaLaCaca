@@ -1,7 +1,7 @@
 package dev.gewooniraj.abundalacaca.commands
 
 import dev.gewooniraj.abundalacaca.Messages
-import dev.gewooniraj.abundalacaca.inventories.recipesmenu.RecipesMenu
+import dev.gewooniraj.abundalacaca.inventories.recipesmenu.main.MainRecipesMenu
 import net.kyori.adventure.sound.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -29,7 +29,7 @@ class Recipes : CommandExecutor {
                     org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
                 )
             )
-            RecipesMenu().open(sender)
+            MainRecipesMenu().open(sender)
         }
         return true
     }

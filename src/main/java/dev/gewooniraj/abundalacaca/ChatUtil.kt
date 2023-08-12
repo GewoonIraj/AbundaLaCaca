@@ -6,8 +6,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 
 object ChatUtil {
 
-    fun consoleFormat(string: String): TextComponent {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize("&e[AbundaLaCaca] &r$string")
+    fun prefixFormat(string: String): TextComponent {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize("&7[&6AbundaLaCaca&7] &r$string")
             .decoration(TextDecoration.ITALIC, false)
     }
 

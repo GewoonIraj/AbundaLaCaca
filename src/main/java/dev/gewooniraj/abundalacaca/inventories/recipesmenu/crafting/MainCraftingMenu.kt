@@ -4,9 +4,9 @@ import org.bukkit.event.Listener
 import org.bukkit.inventory.Inventory
 import java.util.*
 
-class CraftableRecipesMenu : Listener {
+class MainCraftingMenu : Listener {
 
     companion object {
-        val craftableRecipesMenu: MutableMap<UUID, Inventory> = mutableMapOf()
+        val mainCraftingMenu: MutableMap<UUID, Inventory> = mutableMapOf()
     }
 }

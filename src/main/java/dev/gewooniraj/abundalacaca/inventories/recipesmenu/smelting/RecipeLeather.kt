@@ -7,6 +7,6 @@ import java.util.*
 class RecipeLeather : Listener {
 
     companion object {
-        val recipeLeather: MutableMap<UUID, Inventory> = mutableMapOf()
+        val mainSmeltingMenu: MutableMap<UUID, Inventory> = mutableMapOf()
     }
 }
