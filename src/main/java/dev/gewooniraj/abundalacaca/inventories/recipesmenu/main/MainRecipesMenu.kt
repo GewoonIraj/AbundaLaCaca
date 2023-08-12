@@ -1,6 +1,7 @@
 package dev.gewooniraj.abundalacaca.inventories.recipesmenu.main
 
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.ItemManager
+import dev.gewooniraj.abundalacaca.inventories.recipesmenu.crafting.MainCraftingMenu
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.smelting.MainSmeltingMenu
 import dev.gewooniraj.abundalacaca.recipes.RecipeUtil
 import net.kyori.adventure.sound.Sound
@@ -86,12 +87,11 @@ class MainRecipesMenu : Listener {
 				SlotAction.CRAFTING_RECIPES -> {
 					player.playSound(
 						Sound.sound(
-//                            org.bukkit.Sound.ENTITY_ENDERMAN_TELEPORT, Sound.Source.PLAYER, 1f, 1f
-							org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f
+							org.bukkit.Sound.ENTITY_ENDERMAN_TELEPORT, Sound.Source.PLAYER, 1f, 1f
 						)
 					)
-//                    event.inventory.close()
-//                    MainCraftingMenu().open(player)
+					event.inventory.close()
+					MainCraftingMenu().open(player)
 				}
 
 				SlotAction.SMELTING_RECIPES -> {

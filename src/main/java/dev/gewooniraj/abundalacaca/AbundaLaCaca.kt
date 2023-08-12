@@ -6,6 +6,7 @@ import dev.gewooniraj.abundalacaca.events.PlayerArmSwing
 import dev.gewooniraj.abundalacaca.events.PlayerDropItem
 import dev.gewooniraj.abundalacaca.events.PlayerJoin
 import dev.gewooniraj.abundalacaca.events.PlayerRecipeDiscover
+import dev.gewooniraj.abundalacaca.inventories.recipesmenu.crafting.MainCraftingMenu
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.main.MainRecipesMenu
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.smelting.MainSmeltingMenu
 import dev.gewooniraj.abundalacaca.recipes.RecipeManager
@@ -40,6 +41,7 @@ class AbundaLaCaca : JavaPlugin() {
 	}
 
 	private fun registerInventories() {
+		server.pluginManager.registerEvents(MainCraftingMenu(), this)
 		server.pluginManager.registerEvents(MainRecipesMenu(), this)
 		server.pluginManager.registerEvents(MainSmeltingMenu(), this)
 	}
