@@ -8,19 +8,19 @@ import org.bukkit.event.player.PlayerRecipeDiscoverEvent
 
 class PlayerRecipeDiscover : Listener {
 
-    @EventHandler
-    fun onDiscover(event: PlayerRecipeDiscoverEvent) {
-        val player = event.player
-        val discoveredRecipe = event.recipe
-        val recipeTypes = listOf("crafting", "smelting")
+	@EventHandler
+	fun onDiscover(event: PlayerRecipeDiscoverEvent) {
+		val player = event.player
+		val discoveredRecipe = event.recipe
+		val recipeTypes = listOf("crafting", "smelting")
 
-        for (recipeType in recipeTypes) {
-            val recipeKeys = RecipeUtil.getRecipeKeys(recipeType)
-            if (recipeKeys.contains(discoveredRecipe)) {
-                player.playSound(
-                    Sound.sound(org.bukkit.Sound.UI_TOAST_CHALLENGE_COMPLETE, Sound.Source.PLAYER, 1f, 1f)
-                )
-            }
-        }
-    }
+		for (recipeType in recipeTypes) {
+			val recipeKeys = RecipeUtil.getRecipeKeys(recipeType)
+			if (recipeKeys.contains(discoveredRecipe)) {
+				player.playSound(
+					Sound.sound(org.bukkit.Sound.UI_TOAST_CHALLENGE_COMPLETE, Sound.Source.PLAYER, 1f, 1f)
+				)
+			}
+		}
+	}
 }

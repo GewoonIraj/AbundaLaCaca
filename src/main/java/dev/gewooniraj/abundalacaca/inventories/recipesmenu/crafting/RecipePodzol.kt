@@ -6,7 +6,7 @@ import java.util.*
 
 class RecipePodzol : Listener {
 
-    companion object {
-        val recipePodzol: MutableMap<UUID, Inventory> = mutableMapOf()
-    }
+	companion object {
+		val recipePodzol: MutableMap<UUID, Inventory> = mutableMapOf()
+	}
 }

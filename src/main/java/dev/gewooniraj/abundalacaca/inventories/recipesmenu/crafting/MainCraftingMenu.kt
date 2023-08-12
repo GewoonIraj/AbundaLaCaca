@@ -64,7 +64,7 @@ class MainCraftingMenu : Listener {
 			val index = (i * 2) + 18
 			if (i < ItemManager.getAvailableRecipes("crafting").size) {
 				val recipeData = ItemManager.getAvailableRecipes("crafting")
-				val customItem = ItemManager.jsonItem("crafting", recipeData[i])
+				val customItem = ItemManager.createJsonItem("crafting", recipeData[i])
 				inventory.setItem(index, customItem)
 			} else {
 				inventory.setItem(index, uItem)

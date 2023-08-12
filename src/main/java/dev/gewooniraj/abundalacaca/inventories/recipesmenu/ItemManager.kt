@@ -34,7 +34,7 @@ object ItemManager {
 		return item
 	}
 
-	fun jsonItem(recipeType: String, recipeData: RecipeData): ItemStack {
+	fun createJsonItem(recipeType: String, recipeData: RecipeData): ItemStack {
 		val recipeFilePath = File(plugin.dataFolder, "recipes/$recipeType/${recipeData.namespacedKey.key}.json")
 		val recipeReader = InputStreamReader(recipeFilePath.inputStream(), StandardCharsets.UTF_8)
 		val recipe = gson.fromJson(recipeReader, recipeData::class.java)
@@ -58,10 +58,16 @@ object ItemManager {
 			resultMeta.displayName(translatableComponent.build())
 		}
 
-		if (recipe.customMetaData.lore.isNotEmpty() || recipe.customMetaData.lore != null) {
+/*		if (recipe.customMetaData.lore.isNotEmpty() || recipe.customMetaData.lore != null) {
 			val resultLore = recipe.customMetaData.lore.map { ChatUtil.textFormat(it) }
 			resultMeta.lore(resultLore)
-		}
+		}*/
+
+		val resultLore = mutableListOf<Component>()
+		resultLore.add(Component.empty())
+		resultLore.add(ChatUtil.textFormat("&a&l✔ Discovered!"))
+		resultMeta.lore(resultLore)
+
 		resultItem.itemMeta = resultMeta
 		return resultItem
 	}

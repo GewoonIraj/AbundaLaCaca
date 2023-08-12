@@ -6,7 +6,7 @@ import java.util.*
 
 class RecipeGrassBlock : Listener {
 
-    companion object {
-        val recipeGrassBlock: MutableMap<UUID, Inventory> = mutableMapOf()
-    }
+	companion object {
+		val recipeGrassBlock: MutableMap<UUID, Inventory> = mutableMapOf()
+	}
 }

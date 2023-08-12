@@ -6,7 +6,7 @@ import java.util.*
 
 class RecipeEnchantedGoldenApple : Listener {
 
-    companion object {
-        val recipeEnchantedGoldenApple: MutableMap<UUID, Inventory> = mutableMapOf()
-    }
+	companion object {
+		val recipeEnchantedGoldenApple: MutableMap<UUID, Inventory> = mutableMapOf()
+	}
 }

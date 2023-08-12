@@ -7,15 +7,15 @@ import org.bukkit.event.player.PlayerDropItemEvent
 
 class PlayerDropItem : Listener {
 
-    @EventHandler
-    fun onDrop(event: PlayerDropItemEvent) {
-        val randomPitches = listOf(
-            Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.55f),
-            Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.6f),
-            Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.65f),
-            Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.7f)
-        )
-        val player = event.player
-        player.playSound(randomPitches.random())
-    }
+	@EventHandler
+	fun onDrop(event: PlayerDropItemEvent) {
+		val randomPitches = listOf(
+			Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.55f),
+			Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.6f),
+			Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.65f),
+			Sound.sound(org.bukkit.Sound.ENTITY_ITEM_PICKUP, Sound.Source.PLAYER, 1f, 0.7f)
+		)
+		val player = event.player
+		player.playSound(randomPitches.random())
+	}
 }

@@ -10,27 +10,27 @@ import org.bukkit.entity.Player
 
 class Recipes : CommandExecutor {
 
-    /*    fun isInt(s: String): Boolean {
-            return try {
-                s.toInt()
-                true
-            } catch(e: NumberFormatException) {
-                false
-            }
-        }*/
+	/*    fun isInt(s: String): Boolean {
+			return try {
+				s.toInt()
+				true
+			} catch(e: NumberFormatException) {
+				false
+			}
+		}*/
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
-        if (sender !is Player) {
-            sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
-        } else {
-            sender.sendMessage(Messages.messageType(Messages.OPEN_RECIPES_MENU))
-            sender.playSound(
-                Sound.sound(
-                    org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
-                )
-            )
-            MainRecipesMenu().open(sender)
-        }
-        return true
-    }
+	override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+		if (sender !is Player) {
+			sender.sendMessage(Messages.messageType(Messages.NO_PLAYER))
+		} else {
+			sender.sendMessage(Messages.messageType(Messages.OPEN_RECIPES_MENU))
+			sender.playSound(
+				Sound.sound(
+					org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, Sound.Source.PLAYER, 1f, 1f
+				)
+			)
+			MainRecipesMenu().open(sender)
+		}
+		return true
+	}
 }

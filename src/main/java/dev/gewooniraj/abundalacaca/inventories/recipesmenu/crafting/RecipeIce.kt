@@ -6,7 +6,7 @@ import java.util.*
 
 class RecipeIce : Listener {
 
-    companion object {
-        val recipeIce: MutableMap<UUID, Inventory> = mutableMapOf()
-    }
+	companion object {
+		val recipeIce: MutableMap<UUID, Inventory> = mutableMapOf()
+	}
 }

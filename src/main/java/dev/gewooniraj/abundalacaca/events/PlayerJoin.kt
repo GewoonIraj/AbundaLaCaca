@@ -9,20 +9,20 @@ import org.bukkit.event.player.PlayerJoinEvent
 
 class PlayerJoin : Listener {
 
-    @EventHandler
-    fun onJoin(event: PlayerJoinEvent) {
-        val player = event.player
-        val recipeTypes = listOf("crafting", "smelting")
+	@EventHandler
+	fun onJoin(event: PlayerJoinEvent) {
+		val player = event.player
+		val recipeTypes = listOf("crafting", "smelting")
 
-        for (recipeType in recipeTypes) {
-            val recipeKeys = RecipeUtil.getRecipeKeys(recipeType)
-            discoverRecipes(player, recipeKeys)
-        }
-    }
+		for (recipeType in recipeTypes) {
+			val recipeKeys = RecipeUtil.getRecipeKeys(recipeType)
+			discoverRecipes(player, recipeKeys)
+		}
+	}
 
-    private fun discoverRecipes(player: Player, recipeKeys: List<NamespacedKey>) {
-        for (recipeKey in recipeKeys) {
-            player.discoverRecipe(recipeKey)
-        }
-    }
+	private fun discoverRecipes(player: Player, recipeKeys: List<NamespacedKey>) {
+		for (recipeKey in recipeKeys) {
+			player.discoverRecipe(recipeKey)
+		}
+	}
 }
