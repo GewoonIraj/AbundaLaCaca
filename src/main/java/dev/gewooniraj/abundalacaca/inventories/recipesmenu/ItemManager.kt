@@ -12,6 +12,7 @@ import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -35,33 +36,47 @@ object ItemManager {
 		return item
 	}
 
-	fun manualJsonLeatherItem(): ItemStack {
-		val leatherRecipeFilePath = File(plugin.dataFolder, "recipes/smelting/leather.json")
-		val leatherRecipeReader = InputStreamReader(leatherRecipeFilePath.inputStream(), StandardCharsets.UTF_8)
-		val leatherRecipeData = gson.fromJson(leatherRecipeReader, CustomFurnaceRecipe::class.java)
+	fun jsonItem(recipeType: String, recipeData: CustomFurnaceRecipe): ItemStack {
+		val recipeFilePath = File(plugin.dataFolder, "recipes/$recipeType/${recipeData.namespacedKey.key}.json")
+		val recipeReader = InputStreamReader(recipeFilePath.inputStream(), StandardCharsets.UTF_8)
+		val recipe = gson.fromJson(recipeReader, CustomFurnaceRecipe::class.java)
 
-		val leatherMaterial = Material.valueOf(leatherRecipeData.result.uppercase())
+		val resultMaterial = Material.valueOf(recipe.result.uppercase())
 
-		val leatherItem = ItemStack(leatherMaterial)
-		val leatherMeta = leatherItem.itemMeta
+		val resultItem = ItemStack(resultMaterial)
+		val resultMeta = resultItem.itemMeta
 
 		val translatableComponent: TranslatableComponent.Builder =
-			Component.translatable().key(leatherItem.translationKey()).args(Component.text())
+			Component.translatable().key(resultItem.translationKey()).args(Component.text())
 				.color(TextColor.color(0x55FFFF)).decoration(TextDecoration.ITALIC, false)
 
-		if (leatherRecipeData.customMetaData.displayName != null) {
-			leatherMeta.displayName(ChatUtil.textFormat("&b" + leatherRecipeData.customMetaData.displayName))
+		if (recipeData.customMetaData.displayName != null) {
+			resultMeta.displayName(ChatUtil.textFormat("&b" + recipeData.customMetaData.displayName))
 		} else {
-			leatherMeta.displayName(
-				translatableComponent.build()
-			)
+			resultMeta.displayName(translatableComponent.build())
 		}
 
-		if (leatherRecipeData.customMetaData.lore.isNotEmpty() || leatherRecipeData.customMetaData.lore != null) {
-			val resultLore = leatherRecipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
-			leatherMeta.lore(resultLore)
+		if (recipeData.customMetaData.lore.isNotEmpty() || recipeData.customMetaData.lore != null) {
+			val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
+			resultMeta.lore(resultLore)
 		}
-		leatherItem.itemMeta = leatherMeta
-		return leatherItem
+		resultItem.itemMeta = resultMeta
+		return resultItem
+	}
+
+	fun getAvailableRecipes(recipeType: String): List<CustomFurnaceRecipe> {
+		val recipesFolder = File(plugin.dataFolder, "recipes/$recipeType")
+		val availableRecipes = mutableListOf<CustomFurnaceRecipe>()
+
+		val files = recipesFolder.listFiles { _, name -> name.endsWith(".json") }
+		if (files != null) {
+			for (file in files) {
+				val recipeReader = InputStreamReader(file.inputStream(), StandardCharsets.UTF_8)
+				val recipeData = gson.fromJson(recipeReader, CustomFurnaceRecipe::class.java)
+				availableRecipes.add(recipeData)
+			}
+		}
+
+		return availableRecipes
 	}
 }

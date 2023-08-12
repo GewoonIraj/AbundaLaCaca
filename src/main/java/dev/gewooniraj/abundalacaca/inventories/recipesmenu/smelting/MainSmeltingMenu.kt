@@ -22,24 +22,24 @@ class MainSmeltingMenu : Listener {
 	}
 
 	private enum class SlotAction {
-		SMELTING_RECIPES, RECIPE_ONE, LOCKED_RECIPE, UNKNOWN_RECIPE, PREVIOUS_PAGE, NEXT_PAGE, CLOSE, NONE
+		SMELTING_RECIPES, KNOWN_RECIPE, UNKNOWN_RECIPE, PREVIOUS_PAGE, NEXT_PAGE, CLOSE, NONE
 	}
 
-	private val slotActions = mapOf(
-		4 to SlotAction.SMELTING_RECIPES,
-		18 to SlotAction.RECIPE_ONE,
-		20 to SlotAction.UNKNOWN_RECIPE,
-		22 to SlotAction.UNKNOWN_RECIPE,
-		24 to SlotAction.UNKNOWN_RECIPE,
-		26 to SlotAction.UNKNOWN_RECIPE,
-		28 to SlotAction.UNKNOWN_RECIPE,
-		30 to SlotAction.UNKNOWN_RECIPE,
-		32 to SlotAction.UNKNOWN_RECIPE,
-		34 to SlotAction.UNKNOWN_RECIPE,
-		46 to SlotAction.PREVIOUS_PAGE,
-		49 to SlotAction.CLOSE,
-		52 to SlotAction.NEXT_PAGE
-	)
+	private val actionSlotMappings = mutableMapOf<Int, SlotAction>().apply {
+		(0 until 9).forEach { i ->
+			val index = (i * 2) + 18
+			val action =
+				if (i < ItemManager.getAvailableRecipes("smelting").size) SlotAction.KNOWN_RECIPE else SlotAction.UNKNOWN_RECIPE
+			this[index] = action
+			if (i < 8) {
+				this[index + 1] = SlotAction.NONE
+			}
+		}
+		this[4] = SlotAction.SMELTING_RECIPES
+		this[46] = SlotAction.PREVIOUS_PAGE
+		this[49] = SlotAction.CLOSE
+		this[52] = SlotAction.NEXT_PAGE
+	}
 
 	fun open(player: Player) {
 		val inventory: Inventory = Bukkit.createInventory(player, 54, Component.text("Menu: Smelting Recipes"))
@@ -52,13 +52,24 @@ class MainSmeltingMenu : Listener {
 		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", emptyList())
 		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", emptyList())
 		val uItem = ItemManager.createItem(Material.PAPER, "&3???", listOf("&3★ TBD"))
-		val ppItem = ItemManager.createItem(Material.ARROW, "&aPrevious Page", listOf("&e➤ Page 1"))
+		val ppItem = ItemManager.createItem(Material.SPECTRAL_ARROW, "&aPrevious Page", listOf("&e➤ Page 1"))
 		val rItem = ItemManager.createItem(Material.BARRIER, "&cReturn", listOf("&7➤ To Go Back"))
-		val npItem = ItemManager.createItem(Material.ARROW, "&aNext Page", listOf("&e➤ Page 1"))
+		val npItem = ItemManager.createItem(Material.SPECTRAL_ARROW, "&aNext Page", listOf("&e➤ Page 1"))
 
 		val wvSlots = listOf(0..2, 6..8)
 		val svSlots = listOf(9..17, 36..44)
-		val otherSlots = listOf(48, 50)
+		val otherSlots = listOf(3, 5, 48, 50)
+
+		for (i in 0 until 9) {
+			val index = (i * 2) + 18
+			if (i < ItemManager.getAvailableRecipes("smelting").size) {
+				val recipeData = ItemManager.getAvailableRecipes("smelting")
+				val customItem = ItemManager.jsonItem("smelting", recipeData[i])
+				inventory.setItem(index, customItem)
+			} else {
+				inventory.setItem(index, uItem)
+			}
+		}
 
 		wvSlots.forEach { range ->
 			range.forEach { slot ->
@@ -77,33 +88,23 @@ class MainSmeltingMenu : Listener {
 		}
 
 		inventory.setItem(4, srItem)
-		inventory.setItem(18, ItemManager.manualJsonLeatherItem())
-		inventory.setItem(20, uItem)
-		inventory.setItem(22, uItem)
-		inventory.setItem(24, uItem)
-		inventory.setItem(26, uItem)
-		inventory.setItem(28, uItem)
-		inventory.setItem(30, uItem)
-		inventory.setItem(32, uItem)
-		inventory.setItem(34, uItem)
 		inventory.setItem(46, ppItem)
 		inventory.setItem(49, rItem)
 		inventory.setItem(52, npItem)
-
 
 		mainSmeltingMenu[player.uniqueId] = inventory
 		player.openInventory(inventory)
 	}
 
 	@EventHandler
-	fun onClick(event: InventoryClickEvent) {
+	private fun onClick(event: InventoryClickEvent) {
 		val player = event.whoClicked as? Player ?: return
 		val playerUuid = player.uniqueId
 		val clickedSlot = event.slot
 
 		if (event.inventory == mainSmeltingMenu[playerUuid]) {
 			event.isCancelled = true
-			val action = slotActions[clickedSlot] ?: SlotAction.NONE
+			val action = actionSlotMappings[clickedSlot] ?: SlotAction.NONE
 
 			when (action) {
 				SlotAction.SMELTING_RECIPES -> {
@@ -115,7 +116,7 @@ class MainSmeltingMenu : Listener {
 //					event.inventory.close()
 				}
 
-				SlotAction.RECIPE_ONE -> {
+				SlotAction.KNOWN_RECIPE -> {
 					player.playSound(
 						Sound.sound(
 							org.bukkit.Sound.ENTITY_ENDERMAN_TELEPORT, Sound.Source.PLAYER, 1f, 1f
@@ -123,14 +124,6 @@ class MainSmeltingMenu : Listener {
 					)
 //					event.inventory.close()
 //                  RecipeLeather().open(player)
-				}
-
-				SlotAction.LOCKED_RECIPE -> {
-					player.playSound(
-						Sound.sound(
-							org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, Sound.Source.PLAYER, 1f, 2f
-						)
-					)
 				}
 
 				SlotAction.UNKNOWN_RECIPE -> {
@@ -176,7 +169,7 @@ class MainSmeltingMenu : Listener {
 	}
 
 	@EventHandler
-	fun onClose(event: InventoryCloseEvent) {
+	private fun onClose(event: InventoryCloseEvent) {
 		val player = event.player as? Player ?: return
 		val playerUuid = player.uniqueId
 

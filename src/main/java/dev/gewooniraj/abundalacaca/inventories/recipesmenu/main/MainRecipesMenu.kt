@@ -73,7 +73,7 @@ class MainRecipesMenu : Listener {
 	}
 
 	@EventHandler
-	fun onClick(event: InventoryClickEvent) {
+	private fun onClick(event: InventoryClickEvent) {
 		val player = event.whoClicked as? Player ?: return
 		val playerUuid = player.uniqueId
 		val clickedSlot = event.slot
@@ -120,7 +120,7 @@ class MainRecipesMenu : Listener {
 	}
 
 	@EventHandler
-	fun onClose(event: InventoryCloseEvent) {
+	private fun onClose(event: InventoryCloseEvent) {
 		val player = event.player as? Player ?: return
 		val playerUuid = player.uniqueId
 
