@@ -9,6 +9,7 @@ import dev.gewooniraj.abundalacaca.events.PlayerRecipeDiscover
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.crafting.MainCraftingMenu
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.main.MainRecipesMenu
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.smelting.MainSmeltingMenu
+import dev.gewooniraj.abundalacaca.inventories.recipesmenu.smelting.RecipeLeather
 import dev.gewooniraj.abundalacaca.recipes.RecipeManager
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -44,6 +45,7 @@ class AbundaLaCaca : JavaPlugin() {
 		server.pluginManager.registerEvents(MainCraftingMenu(), this)
 		server.pluginManager.registerEvents(MainRecipesMenu(), this)
 		server.pluginManager.registerEvents(MainSmeltingMenu(), this)
+		server.pluginManager.registerEvents(RecipeLeather(), this)
 	}
 
 	private fun registerRecipes() {

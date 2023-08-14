@@ -49,8 +49,8 @@ class MainCraftingMenu : Listener {
 			"&aCrafting Recipes",
 			listOf("&7Total Crafting Recipes: &b${RecipeUtil.getRecipeCount("crafting")}")
 		)
-		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", emptyList())
-		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", emptyList())
+		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", null)
+		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", null)
 		val uItem = ItemManager.createItem(Material.PAPER, "&3???", listOf("&3★ TBD"))
 		val ppItem = ItemManager.createItem(Material.SPECTRAL_ARROW, "&aPrevious Page", listOf("&e➤ Page 1"))
 		val rItem = ItemManager.createItem(Material.BARRIER, "&cReturn", listOf("&7➤ To Go Back"))

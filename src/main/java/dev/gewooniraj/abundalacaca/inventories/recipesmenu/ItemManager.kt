@@ -7,7 +7,7 @@ import dev.gewooniraj.abundalacaca.ChatUtil
 import dev.gewooniraj.abundalacaca.recipes.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TranslatableComponent
-import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -24,12 +24,25 @@ object ItemManager {
 	private val gson: Gson = GsonBuilder().registerTypeAdapter(CustomRecipe::class.java, RecipeDeserializer())
 		.registerTypeAdapter(RecipeData::class.java, RecipeDeserializer()).create()
 
-	fun createItem(material: Material, displayName: String, lore: List<String>): ItemStack {
+	fun createItem(material: Material, displayName: String?, lore: List<String>?): ItemStack {
+		val translatableComponent: TranslatableComponent.Builder =
+			Component.translatable().key(material.translationKey()).args(Component.text())
+				.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.AQUA)
+
 		val item = ItemStack(material, 1)
 		val itemMeta = item.itemMeta
-		itemMeta.displayName(ChatUtil.textFormat(displayName))
-		val loreComponents = lore.map { ChatUtil.textFormat(it) }
-		itemMeta.lore(loreComponents)
+
+		if (displayName != null) {
+			itemMeta.displayName(ChatUtil.textFormat(displayName))
+		} else {
+			itemMeta.displayName(translatableComponent.build())
+		}
+		if (lore != null) {
+			if (lore.isNotEmpty()) {
+				val resultLore = lore.map { ChatUtil.textFormat(it) }
+				itemMeta.lore(resultLore)
+			}
+		}
 		item.itemMeta = itemMeta
 		return item
 	}
@@ -50,7 +63,7 @@ object ItemManager {
 
 		val translatableComponent: TranslatableComponent.Builder =
 			Component.translatable().key(resultItem.translationKey()).args(Component.text())
-				.color(TextColor.color(0x55FFFF)).decoration(TextDecoration.ITALIC, false)
+				.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.AQUA)
 
 		if (recipe.customMetaData.displayName != null) {
 			resultMeta.displayName(ChatUtil.textFormat("&b" + recipe.customMetaData.displayName))
@@ -58,10 +71,10 @@ object ItemManager {
 			resultMeta.displayName(translatableComponent.build())
 		}
 
-/*		if (recipe.customMetaData.lore.isNotEmpty() || recipe.customMetaData.lore != null) {
-			val resultLore = recipe.customMetaData.lore.map { ChatUtil.textFormat(it) }
-			resultMeta.lore(resultLore)
-		}*/
+		/*		if (recipe.customMetaData.lore.isNotEmpty() || recipe.customMetaData.lore != null) {
+					val resultLore = recipe.customMetaData.lore.map { ChatUtil.textFormat(it) }
+					resultMeta.lore(resultLore)
+				}*/
 
 		val resultLore = mutableListOf<Component>()
 		resultLore.add(Component.empty())
@@ -87,4 +100,20 @@ object ItemManager {
 
 		return availableRecipes
 	}
+
+/*	fun getInputFromRecipe(recipeType: String, recipeData: RecipeData): ItemStack {
+		val recipeFilePath = File(plugin.dataFolder, "recipes/$recipeType/${recipeData.namespacedKey.key}.json")
+		val recipeReader = InputStreamReader(recipeFilePath.inputStream(), StandardCharsets.UTF_8)
+		val recipe = gson.fromJson(recipeReader, recipeData::class.java)
+
+		val inputMaterial = when (recipeData.input) {
+			is CraftingResult -> Material.valueOf((recipeData.input as Ingredients).item.uppercase())
+			is SmeltingResult -> Material.valueOf((recipeData.input as CustomFurnaceRecipe).source.uppercase())
+			else -> throw IllegalArgumentException("Unknown result type")
+		}
+
+		recipe.customMetaData.displayName
+
+		return ItemStack(inputMaterial)
+	}*/
 }

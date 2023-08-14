@@ -2,6 +2,8 @@ package dev.gewooniraj.abundalacaca.inventories.recipesmenu.smelting
 
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.ItemManager
 import dev.gewooniraj.abundalacaca.inventories.recipesmenu.main.MainRecipesMenu
+import dev.gewooniraj.abundalacaca.recipes.CustomFurnaceRecipe
+import dev.gewooniraj.abundalacaca.recipes.RecipeData
 import dev.gewooniraj.abundalacaca.recipes.RecipeUtil
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
@@ -49,8 +51,8 @@ class MainSmeltingMenu : Listener {
 			"&6Smelting Recipes",
 			listOf("&7Total Smelting Recipes: &b${RecipeUtil.getRecipeCount("smelting")}")
 		)
-		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", emptyList())
-		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", emptyList())
+		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", null)
+		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", null)
 		val uItem = ItemManager.createItem(Material.PAPER, "&3???", listOf("&3★ TBD"))
 		val ppItem = ItemManager.createItem(Material.SPECTRAL_ARROW, "&aPrevious Page", listOf("&e➤ Page 1"))
 		val rItem = ItemManager.createItem(Material.BARRIER, "&cReturn", listOf("&7➤ To Go Back"))
@@ -122,8 +124,8 @@ class MainSmeltingMenu : Listener {
 							org.bukkit.Sound.ENTITY_ENDERMAN_TELEPORT, Sound.Source.PLAYER, 1f, 1f
 						)
 					)
-//					event.inventory.close()
-//                  RecipeLeather().open(player)
+					event.inventory.close()
+					RecipeLeather().open(player)
 				}
 
 				SlotAction.UNKNOWN_RECIPE -> {

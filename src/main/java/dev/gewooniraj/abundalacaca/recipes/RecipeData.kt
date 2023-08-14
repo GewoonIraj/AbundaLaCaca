@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey
 interface RecipeData {
 	val namespacedKey: NamespacedKey
 	val result: Any
+	val input: Any
 	val customMetaData: CustomMetaData
 }
 
@@ -15,7 +16,10 @@ data class CustomShapedRecipe(
 	val shape: List<String>,
 	val ingredients: Map<String, String>,
 	override val customMetaData: CustomMetaData
-) : CustomRecipe(), RecipeData
+) : CustomRecipe(), RecipeData {
+	override val input: Any
+		get() = ingredients
+}
 
 data class CustomShapelessRecipe(
 	override val type: String = "CustomShapelessRecipe",
@@ -23,7 +27,10 @@ data class CustomShapelessRecipe(
 	override val result: CraftingResult,
 	val ingredients: List<Ingredients>,
 	override val customMetaData: CustomMetaData
-) : CustomRecipe(), RecipeData
+) : CustomRecipe(), RecipeData {
+	override val input: Any
+		get() = ingredients
+}
 
 data class CustomFurnaceRecipe(
 	override val type: String = "CustomFurnaceRecipe",
@@ -33,4 +40,7 @@ data class CustomFurnaceRecipe(
 	val experience: Float,
 	val cookingTime: Int,
 	override val customMetaData: CustomMetaData
-) : CustomRecipe(), RecipeData
+) : CustomRecipe(), RecipeData {
+	override val input: Any
+		get() = source
+}

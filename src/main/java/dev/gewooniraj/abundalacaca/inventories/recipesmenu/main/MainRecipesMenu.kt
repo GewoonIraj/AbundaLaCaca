@@ -41,8 +41,8 @@ class MainRecipesMenu : Listener {
 			"&6Smelting Recipes",
 			listOf("&7Total Smelting Recipes: &b${RecipeUtil.getRecipeCount("smelting")}", "", "&e➤ Click to view!")
 		)
-		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", emptyList())
-		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", emptyList())
+		val wvItem = ItemManager.createItem(Material.WEEPING_VINES, "", null)
+		val svItem = ItemManager.createItem(Material.SCULK_VEIN, "", null)
 		val cItem = ItemManager.createItem(Material.BARRIER, "&cClose", listOf("&7➤ To Exit"))
 
 		val wvSlots = listOf(3..5, 18..20, 24..26)

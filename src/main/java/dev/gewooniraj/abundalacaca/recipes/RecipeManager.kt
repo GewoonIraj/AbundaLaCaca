@@ -86,8 +86,7 @@ class RecipeManager {
 		if (recipeData.customMetaData.displayName != null) {
 			resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
 		}
-
-		if (recipeData.customMetaData.lore.isNotEmpty()) {
+		if (recipeData.customMetaData.lore.isNotEmpty() || recipeData.customMetaData.lore != null) {
 			val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
 			resultMeta.lore(resultLore)
 		}
@@ -113,12 +112,10 @@ class RecipeManager {
 		if (recipeData.customMetaData.displayName != null) {
 			resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
 		}
-
-		if (recipeData.customMetaData.lore.isNotEmpty()) {
+		if (recipeData.customMetaData.lore.isNotEmpty() || recipeData.customMetaData.lore != null) {
 			val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
 			resultMeta.lore(resultLore)
 		}
-
 		resultItem.itemMeta = resultMeta
 
 		val recipe = ShapelessRecipe(recipeData.namespacedKey, resultItem)
@@ -140,7 +137,6 @@ class RecipeManager {
 		if (recipeData.customMetaData.displayName != null) {
 			resultMeta.displayName(ChatUtil.textFormat(recipeData.customMetaData.displayName))
 		}
-
 		if (recipeData.customMetaData.lore.isNotEmpty() || recipeData.customMetaData.lore != null) {
 			val resultLore = recipeData.customMetaData.lore.map { ChatUtil.textFormat(it) }
 			resultMeta.lore(resultLore)
